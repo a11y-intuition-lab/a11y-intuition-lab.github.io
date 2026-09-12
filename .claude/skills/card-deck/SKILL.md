@@ -12,12 +12,14 @@ then export to PDF. Follow it top to bottom for a new deck, or jump to a
 section to extend an existing one.
 
 Pitfalls worth knowing before you start (details in their sections below):
-a Chrome headless `--print-to-pdf` bug that silently scales/pads the
-*entire* PDF once a document crosses a page-count threshold (§11); an
-icon-cropping algorithm for extracting individual icons from a flattened
-reference mockup (§7); exact paper-fraction math for tiling A5/A6/A7
-inserts on an A4 sheet (§10); and the difference between "page margin" and
-"cards inset from the edge", which are not the same thing (§10).
+front/back pages that must be **interleaved**, not grouped, or automatic
+duplex printing pairs the wrong sides together (§9); a Chrome headless
+`--print-to-pdf` bug that silently scales/pads the *entire* PDF once a
+document crosses a page-count threshold (§12); an icon-cropping algorithm
+for extracting individual icons from a flattened reference mockup (§7);
+exact paper-fraction math for tiling A5/A6/A7 inserts on an A4 sheet (§11);
+and the difference between "page margin" and "cards inset from the edge",
+which are not the same thing (§11).
 
 ## 1. What you're building
 
@@ -30,10 +32,13 @@ One HTML file (e.g. `index.html`) with:
   everything else is local (`icons/*.png`).
 - Print output: several `.page` divs, each exactly one A4 sheet, laid out
   edge-to-edge with `page-break-after:always` so the browser (or a headless
-  print) paginates them 1:1.
+  print) paginates them 1:1. Front and back pages must be **interleaved**
+  in that page sequence, one pair per physical sheet — see §9, and don't
+  skip it even for a one-page deck extension, it's the single most common
+  way a deck silently breaks double-sided printing.
 
 The user opens the file and prints (`Ctrl/Cmd+P → Margins: None → Background
-graphics: On → Paper: A4`), or you export a PDF for them (§11).
+graphics: On → Paper: A4`), or you export a PDF for them (§12).
 
 ## 2. Base skeleton
 
@@ -363,7 +368,63 @@ bled = np.pad(arr, ((pad_y,pad_y),(pad_x,pad_x),(0,0)), mode='edge')
 which reads as a natural continuation of the texture instead of a hard
 edge or a smear of background colour.
 
-## 9. The fold-and-glue box template
+## 9. Page order for duplex printing (front/back must alternate)
+
+Automatic double-sided ("duplex") printing — whether the user ticks
+"Two-sided" in the print dialog or duplex-prints a PDF you handed them —
+pairs **consecutive pages** as the two sides of one physical sheet: document
+pages 1 & 2 print on sheet 1 (page 1 on side A, page 2 on side B), pages 3 &
+4 on sheet 2, and so on. The document's page order *is* the sheet-pairing —
+there is no separate "this page is a back" flag the printer reads.
+
+That means the `document.getElementById('app').innerHTML = ...` assembly
+must **alternate** front, back, front, back, ... — one full pair per sheet —
+never all fronts followed by all backs, even when every card shares one
+identical repeating back design (§8A). If you render the fronts as a block
+and the (single, reused) back as a block after it, two front pages get
+duplexed onto the same sheet back-to-back, and the trailing back page ends
+up paired with whatever follows it (nothing, or an unrelated page like the
+box template) — the deck comes out of the printer with fronts on both sides
+of some sheets and stray backs elsewhere, and it isn't obvious from looking
+at any single page in a browser or PDF viewer, only from an actual
+double-sided print.
+
+```js
+// WRONG — breaks automatic duplex printing: fronts, then backs, grouped
+document.getElementById('app').innerHTML =
+  renderPage(front1, 'Front 1') +
+  renderPage(front2, 'Front 2') +
+  renderPage(backPage, 'Back');          // one back page, tacked on the end
+
+// RIGHT — interleaved: front, back, front, back — one pair per sheet
+document.getElementById('app').innerHTML =
+  renderPage(front1, 'Front 1') +
+  renderPage(backPage, 'Back (sheet 1)') +
+  renderPage(front2, 'Front 2') +
+  renderPage(backPage, 'Back (sheet 2)');
+```
+
+Even with one repeating back design, call its render function again for
+each sheet rather than rendering it once — the fix is to repeat the call,
+not to add a flag.
+
+**If each card's back is unique** (not a repeating design), the back page's
+own cell order also has to line up with that sheet's front page after the
+physical flip, which depends on which edge the printer's duplex mode flips
+on (long-edge flip mirrors left-right; short-edge flip mirrors top-to-bottom
+— confirm which the user's setup uses, long-edge is the common default) —
+mirror the back page's cell order accordingly so cell N's back lands behind
+front cell N. For the common **repeating identical back** this never
+matters, since every cell is the same; skip it.
+
+**Standalone pages that never pair with a card page** (the fold-and-glue box
+template, §10) go after all the interleaved front/back pairs, so they start
+a fresh sheet. That's fine printing single-sided with a blank reverse — but
+only works cleanly if it lands on an odd page number in the final document;
+if the front/back pairs before it are already even in count (they will be,
+since they're pairs), it will.
+
+## 10. The fold-and-glue box template
 
 A tuck box sized to the deck's card footprint, printed as its own A4 page
 (a dieline: solid lines = cut, dashed = fold, one shaded panel = glue tab).
@@ -385,14 +446,14 @@ The technique to reuse:
   numbered assembly instructions block are worth the space — this is a
   physical craft object, not just a picture.
 
-## 10. Non-standard sizes on the same A4 sheet (A6/A7 inserts, coins, etc.)
+## 11. Non-standard sizes on the same A4 sheet (A6/A7 inserts, coins, etc.)
 
 Sometimes a deck needs an oddball insert — an A6 or A7 sized explainer card,
 a card meant to have something physical glued to it — printed on the same
 A4 workflow. Two things matter here:
 
 **Keep the page size at A4.** Don't try to mix page orientations/sizes in
-one document (see the print-to-pdf caveat in §11) — instead centre or tile
+one document (see the print-to-pdf caveat in §12) — instead centre or tile
 the smaller artwork on a normal 210×297mm `.page`, same as every other page.
 
 **Compute exact paper-fraction tiles, don't guess.** A4 = 2×A5 = 4×A6 =
@@ -451,7 +512,7 @@ overlap, or accept it only shows on the near edges. Remove it (or the whole
 temporary rule) once the geometry is confirmed; say so explicitly when you
 add it and again when you remove it.
 
-## 11. Exporting to PDF
+## 12. Exporting to PDF
 
 ```bash
 google-chrome --headless --disable-gpu --no-sandbox \
@@ -505,18 +566,22 @@ Re-run the pixel check above on the merged PDF's first *and* last page
 before calling it done — a bad merge order or a leftover truncated part is
 just as easy to ship unnoticed as the original bug.
 
-## 12. Workflow checklist for a new or edited deck
+## 13. Workflow checklist for a new or edited deck
 
 1. Write/edit card data (§5) and any new CSS the card type needs (§4).
 2. Screenshot-check in a real browser before touching the PDF:
    `google-chrome --headless --disable-gpu --no-sandbox --window-size=1050,<tall> --screenshot=out.png "file://…"`,
    then crop/view the region you changed. Cheaper and faster to iterate on
    than round-tripping through PDF export every time.
-3. Only once the screenshot looks right, export to PDF (§11) and verify
+3. Check the final `innerHTML` assembly interleaves front/back pages (§9) —
+   this is easy to get right while a deck has one front+one back page and
+   easy to silently break the moment it grows past that, so re-check it
+   whenever the page count changes, not just on the first build.
+4. Only once the screenshot looks right, export to PDF (§12) and verify
    page count + the full-bleed pixel check.
-4. If icons came from a reference image rather than clean assets, do the
+5. If icons came from a reference image rather than clean assets, do the
    contact-sheet QA pass (§7) before wiring them in.
-5. Never leave a temporary QA aid (red outline, debug grid lines) in a PDF
+6. Never leave a temporary QA aid (red outline, debug grid lines) in a PDF
    you hand to the user without saying so — and follow up to remove it.
 
 ## If a request needs something the guide doesn't cover
