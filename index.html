@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A11y Intuition Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#1c516b;
+    --accent-dark:#103c52;
+    --cream:#fdfdfb;
+    --ink:#222;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Nunito Sans','Segoe UI',Arial,sans-serif;
+    line-height:1.5;
+  }
+  main{
+    max-width:880px;
+    margin:0 auto;
+    padding:64px 24px 80px;
+  }
+  h1{
+    font-family:'Poppins',sans-serif;
+    font-weight:800;
+    font-size:clamp(28px, 5vw, 42px);
+    color:var(--accent-dark);
+    margin:0 0 8px;
+  }
+  .slogan{
+    font-family:'Poppins',sans-serif;
+    font-weight:600;
+    font-style:italic;
+    font-size:clamp(16px, 2.4vw, 20px);
+    color:var(--accent);
+    margin:0 0 32px;
+  }
+  .mission{
+    font-size:17px;
+    max-width:65ch;
+    color:#333;
+    margin:0 0 48px;
+  }
+  h2{
+    font-family:'Poppins',sans-serif;
+    font-weight:700;
+    font-size:14px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:#777;
+    margin:0 0 20px;
+  }
+  .tools{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+    gap:20px;
+    margin:0 0 56px;
+    padding:0;
+    list-style:none;
+  }
+  .tool{
+    display:block;
+    padding:22px;
+    border:1.5px solid #ddd;
+    border-radius:12px;
+    background:#fff;
+    text-decoration:none;
+    color:inherit;
+    transition:border-color .15s ease, transform .15s ease;
+  }
+  .tool:hover, .tool:focus-visible{
+    border-color:var(--accent);
+    transform:translateY(-2px);
+  }
+  .tool-name{
+    font-family:'Poppins',sans-serif;
+    font-weight:800;
+    font-size:18px;
+    color:var(--accent-dark);
+    margin:0 0 6px;
+  }
+  .tool-desc{
+    font-size:14px;
+    color:#555;
+    margin:0;
+  }
+  footer{
+    font-size:13px;
+    color:#888;
+    border-top:1px solid #e5e5e5;
+    padding-top:20px;
+  }
+  footer a{ color:var(--accent); }
+
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --cream:#15181a;
+      --ink:#e8e8e6;
+    }
+    body:not([data-theme="light"]) .mission{ color:#ccc; }
+    body:not([data-theme="light"]) .tool{ background:#1e2224; border-color:#333; }
+    body:not([data-theme="light"]) .tool-desc{ color:#aaa; }
+    body:not([data-theme="light"]) h2{ color:#999; }
+    body:not([data-theme="light"]) footer{ border-color:#333; color:#999; }
+  }
+  :root[data-theme="dark"]{
+    --cream:#15181a;
+    --ink:#e8e8e6;
+  }
+  body[data-theme="dark"] .mission{ color:#ccc; }
+  body[data-theme="dark"] .tool{ background:#1e2224; border-color:#333; }
+  body[data-theme="dark"] .tool-desc{ color:#aaa; }
+  body[data-theme="dark"] h2{ color:#999; }
+  body[data-theme="dark"] footer{ border-color:#333; color:#999; }
+</style>
+</head>
+<body>
+<main>
+  <h1>A11y Intuition Lab</h1>
+  <p class="slogan">Play. Reflect. Design for everyone.</p>
+  <p class="mission">
+    A11y Intuition Lab helps students and IT professionals develop the
+    knowledge, skills, attitudes, and habits to make digital accessibility
+    part of everyday practice. We create open, hands-on learning tools and
+    experiences that make human variation, context, and digital barriers
+    tangible — helping people explore different perspectives, understand why
+    accessibility matters, practise improving designs, and build the
+    intuition to notice and prevent barriers before they become part of a
+    product.
+  </p>
+
+  <h2>Tools</h2>
+  <ul class="tools">
+    <li>
+      <a class="tool" href="https://github.com/a11y-intuition-lab/meeples">
+        <p class="tool-name">A11y Meeples</p>
+        <p class="tool-desc">Perspective cards for exploring how designs create barriers — Vision, Hearing, Motor, Cognitive, Memory, Attention, Language, Pace.</p>
+      </a>
+    </li>
+    <li>
+      <a class="tool" href="https://github.com/a11y-intuition-lab/fidget-tokens">
+        <p class="tool-name">A11y Fidget Tokens</p>
+        <p class="tool-desc">Tactile building blocks for exploring accessibility through touch and play.</p>
+      </a>
+    </li>
+    <li>
+      <a class="tool" href="https://github.com/a11y-intuition-lab/gap-coin">
+        <p class="tool-name">Gap Coin</p>
+        <p class="tool-desc">Memento Intervalli — a physical reminder that ability varies, and good design narrows the gap.</p>
+      </a>
+    </li>
+  </ul>
+
+  <footer>
+    A11y Intuition Lab is part of a master's thesis project at NTNU.
+    <a href="https://dagfrode.com/masters/projects/a11y/">Project background</a> ·
+    <a href="https://github.com/a11y-intuition-lab">GitHub org</a>
+  </footer>
+</main>
+</body>
+</html>
