@@ -485,51 +485,39 @@ Check the arithmetic before you build: multiply cells × cell-size and
 confirm it equals 210×297 (or A4 minus your intended margin) **before**
 writing the CSS, the same way you'd check a cut list before touching wood.
 
-**Cut-guide vs. content edge.** If cards should bleed to the true sheet
-edge (no blank margin) but the guide *lines* between them shouldn't run
-into the last few mm of paper a printer can't reliably mark, size the two
-independently: full-bleed card/cell geometry, but the dashed divider lines
-inset ~5mm from the outer sheet edge on both ends:
+**Cut-guide vs. content edge.** Which fix applies depends on how much
+margin the grid has from the true sheet edge, not on what the card's own
+style happens to be:
+
+- **Grid has ≥5mm margin on every side** (the common case — the default
+  3×3 63×88mm grid's 10.5mm/16.5mm margins from §3). Plain full card
+  borders (the §4 default `.card{ border:1.3pt solid var(--accent); }`)
+  are fine as-is, edge cells included. Nothing to do here.
+
+- **Grid tiles full-bleed to the true sheet edge, or with under 5mm margin**
+  (the A6/A7 tiling this section is about). A CSS `border` can't be
+  shortened partway along its own edge, so **no arrangement of borders on
+  the cards themselves can solve this** — even a border kept only on a
+  card's inward-facing side still spans that card's *entire* width or
+  height, and its far endpoint lands exactly on the outer sheet edge, where
+  the cell itself starts (a 2×2 grid with zero margin: the shared vertical
+  border between the columns runs the full page height, so both its top and
+  bottom endpoints sit right on the unprintable top/bottom edge, even
+  though the middle of the line is fine). Cards must carry **no border at
+  all**, and the cut guide must be **separate line elements**, explicitly
+  inset 5mm from their own two endpoints — not just offset from the sheet
+  edge along their length:
 
 ```css
-.grid{ position:absolute; top:0; left:0; width:210mm; height:297mm; } /* cards: edge to edge */
-.divider-v{ position:absolute; left:105mm; top:5mm; width:0; height:287mm; border-left:.35pt dashed #bbb; }
-.divider-h{ position:absolute; top:74.25mm; left:5mm; height:0; width:200mm; border-top:.35pt dashed #bbb; }
+.grid{ position:absolute; top:0; left:0; width:210mm; height:297mm; } /* cards: edge to edge, no border */
+.cutline-v{ position:absolute; left:105mm; top:5mm; width:0; height:287mm; border-left:.35pt dashed #bbb; }
+.cutline-h{ position:absolute; top:148mm; left:5mm; height:0; width:200mm; border-top:.35pt dashed #bbb; }
 ```
 "5mm margin around the page" and "cards inset 5mm from the edge" are **not
 the same thing** — confirm which one is meant before implementing either.
 When only one side of a front/back pair needs the cut guide at all (you cut
 once, through both layers, using whichever side you're looking at), draw it
 on one side's page only.
-
-**Bordered cards (not the bleed-art case above) need a position-aware
-border, not a separate divider.** The dashed-divider technique just above
-is for card art with no border of its own. If the card design *is*
-bordered — the default `.card{ border:1.3pt solid var(--accent); }` from
-§4 — and the grid tiles full-bleed to the true sheet edge (no page margin,
-as this section's math wants), don't also draw a divider: the card's own
-border already runs along every shared edge between cards, doubled up with
-its neighbour's border, which is the cut guide. The problem is the *outer*
-perimeter of that border — the sides facing the physical sheet edge rather
-than another card — which sits inside the ~5mm most printers can't mark, so
-it prints clipped or missing while the inner lines print fine. Since the
-sheet edge doesn't need a cut line anyway (the paper edge already separates
-it), the fix is to omit border on exactly those outward-facing sides, per
-cell, based on its row/column position — not to shrink the grid to make
-room for a margin. For an R-row × C-col grid in row-major DOM order:
-
-```css
-.grid > .card:nth-child(-n+C)  { border-top:none; }      /* top row */
-.grid > .card:nth-child(n+K)   { border-bottom:none; }   /* bottom row, K = (R-1)*C + 1 */
-.grid > .card:nth-child(Cn+1)  { border-left:none; }     /* left column */
-.grid > .card:nth-child(Cn)    { border-right:none; }    /* right column */
-```
-Substitute the actual numbers for `C`, `R`, `K` (e.g. a 2×2 grid is
-`nth-child(-n+2)`, `nth-child(n+3)`, `nth-child(2n+1)`, `nth-child(2n)`).
-Corner cells match two of these rules at once and correctly end up with
-only their two inward-facing sides bordered. Border-radius on a card like
-this reads oddly once two adjacent sides have no border to round into —
-drop `border-radius` (square corners) on decks that use this technique.
 
 **Temporary QA outline.** While iterating on any of this, a plain
 `outline:.3mm solid red;` on the card element is the fastest way to see
