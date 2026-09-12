@@ -502,6 +502,35 @@ When only one side of a front/back pair needs the cut guide at all (you cut
 once, through both layers, using whichever side you're looking at), draw it
 on one side's page only.
 
+**Bordered cards (not the bleed-art case above) need a position-aware
+border, not a separate divider.** The dashed-divider technique just above
+is for card art with no border of its own. If the card design *is*
+bordered — the default `.card{ border:1.3pt solid var(--accent); }` from
+§4 — and the grid tiles full-bleed to the true sheet edge (no page margin,
+as this section's math wants), don't also draw a divider: the card's own
+border already runs along every shared edge between cards, doubled up with
+its neighbour's border, which is the cut guide. The problem is the *outer*
+perimeter of that border — the sides facing the physical sheet edge rather
+than another card — which sits inside the ~5mm most printers can't mark, so
+it prints clipped or missing while the inner lines print fine. Since the
+sheet edge doesn't need a cut line anyway (the paper edge already separates
+it), the fix is to omit border on exactly those outward-facing sides, per
+cell, based on its row/column position — not to shrink the grid to make
+room for a margin. For an R-row × C-col grid in row-major DOM order:
+
+```css
+.grid > .card:nth-child(-n+C)  { border-top:none; }      /* top row */
+.grid > .card:nth-child(n+K)   { border-bottom:none; }   /* bottom row, K = (R-1)*C + 1 */
+.grid > .card:nth-child(Cn+1)  { border-left:none; }     /* left column */
+.grid > .card:nth-child(Cn)    { border-right:none; }    /* right column */
+```
+Substitute the actual numbers for `C`, `R`, `K` (e.g. a 2×2 grid is
+`nth-child(-n+2)`, `nth-child(n+3)`, `nth-child(2n+1)`, `nth-child(2n)`).
+Corner cells match two of these rules at once and correctly end up with
+only their two inward-facing sides bordered. Border-radius on a card like
+this reads oddly once two adjacent sides have no border to round into —
+drop `border-radius` (square corners) on decks that use this technique.
+
 **Temporary QA outline.** While iterating on any of this, a plain
 `outline:.3mm solid red;` on the card element is the fastest way to see
 exactly where each card's true edge falls relative to bleed art, dashed
