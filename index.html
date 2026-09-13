@@ -16,14 +16,14 @@
     --ink:#222;
     --panel:#fff;
     --border:#ddd;
-    --muted:#777;
+    --muted:#666;
 
     --accent-green:#8fbf6b;
-    --accent-green-ink:#3d5c2a;
+    --accent-green-ink:#2b4020;
     --accent-coral:#f0a898;
     --accent-coral-ink:#7a3626;
     --accent-blue:#8fb8d9;
-    --accent-blue-ink:#284b66;
+    --accent-blue-ink:#223f57;
     --accent-yellow:#f0c96b;
     --accent-yellow-ink:#6b4f14;
   }
@@ -268,7 +268,9 @@
   }
   .tool:hover, .tool:focus-visible{
     border-color:var(--accent);
-    transform:translateY(-2px);
+  }
+  @media (prefers-reduced-motion: no-preference){
+    .tool:hover, .tool:focus-visible{ transform:translateY(-2px); }
   }
   .tool-icon{
     width:44px;
@@ -575,10 +577,10 @@
       </div>
       <p class="hero-meta">Open source · Made for learning · Built for practice</p>
     </div>
-    <div class="hero-visual" aria-hidden="true">
-      <span class="blob blob-green"></span>
-      <span class="blob blob-coral"></span>
-      <span class="blob blob-blue"></span>
+    <div class="hero-visual">
+      <span class="blob blob-green" aria-hidden="true"></span>
+      <span class="blob blob-coral" aria-hidden="true"></span>
+      <span class="blob blob-blue" aria-hidden="true"></span>
       <span class="caption">Small tools. Big perspectives.</span>
     </div>
   </section>
@@ -614,7 +616,7 @@
           <span class="tool-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="3"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
           </span>
-          <p class="tool-name">Gapplings</p>
+          <h3 class="tool-name">Gapplings</h3>
           <p class="tool-desc">Small figures for exploring different dimensions of human ability and experience. Use them to change perspective, identify barriers and ask how a design works for different people and contexts.</p>
           <p class="tool-tags">Vision · Hearing · Motor · Cognitive · Memory · Attention · Language · Pace</p>
         </a>
@@ -624,7 +626,7 @@
           <span class="tool-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M9 12h6M12 9v6"/></svg>
           </span>
-          <p class="tool-name">Gap Coin</p>
+          <h3 class="tool-name">Gap Coin</h3>
           <p class="tool-desc">Explore how ability and context change. The Gap Coin introduces permanent, temporary and situational limitations and helps learners examine the gap between what a person can do and what an environment demands.</p>
           <p class="tool-aside">Memento Intervalli — a physical reminder that ability varies, and good design narrows the gap.</p>
         </a>
@@ -634,7 +636,7 @@
           <span class="tool-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="2"/><circle cx="16.5" cy="7.5" r="3.5"/><rect x="4" y="14" width="7" height="7" rx="3.5"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>
           </span>
-          <p class="tool-name">A11y Fidget Tokens</p>
+          <h3 class="tool-name">A11y Fidget Tokens</h3>
           <p class="tool-desc">Explore how information can be communicated through touch. Different tactile patterns invite learners to compare, identify and discuss ways of making information distinguishable beyond vision alone.</p>
         </a>
       </li>
@@ -653,7 +655,7 @@
             <span class="upcoming-tag tag-blue">Visual</span>
             <span class="upcoming-tag tag-green">Physical</span>
           </div>
-          <p class="upcoming-name">On your phone</p>
+          <h3 class="upcoming-name">On your phone</h3>
           <p class="upcoming-desc">A mobile game played on your own device, where ordinary actions like tapping, scrolling and reading start behaving differently — revealing how much a phone's interface assumes about vision, motor control and attention.</p>
         </div>
       </li>
@@ -663,7 +665,7 @@
             <span class="upcoming-badge">Prototype</span>
             <span class="upcoming-tag tag-blue">Visual</span>
           </div>
-          <p class="upcoming-name">A narrative adventure</p>
+          <h3 class="upcoming-name">A narrative adventure</h3>
           <p class="upcoming-desc">A story-driven 2.5D game exploring the perspective of low vision and blindness through narrative rather than a checklist.</p>
         </div>
       </li>
@@ -673,7 +675,7 @@
             <span class="upcoming-badge">Prototype</span>
             <span class="upcoming-tag tag-coral">Cognitive</span>
           </div>
-          <p class="upcoming-name">Check the paperwork</p>
+          <h3 class="upcoming-name">Check the paperwork</h3>
           <p class="upcoming-desc">A decision game in the spirit of Papers, Please, where new rules are introduced one at a time and you check each case against everything you've learned so far, cross-reference details and decide what passes — turning the everyday work of reviewing, judging and applying criteria into the subject of play.</p>
         </div>
       </li>
@@ -688,28 +690,28 @@
         <span class="ksah-icon ksah-blue" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5C4.7 20 4 19.3 4 18.5V5.5Z"/><path d="M20 5.5C20 4.7 19.3 4 18.5 4H13v16h5.5c.8 0 1.5-.7 1.5-1.5V5.5Z"/></svg>
         </span>
-        <p class="ksah-name">Knowledge</p>
+        <h3 class="ksah-name">Knowledge</h3>
         <p class="ksah-desc">Understand accessibility, human variation and why digital barriers emerge.</p>
       </li>
       <li>
         <span class="ksah-icon ksah-green" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20V13"/><path d="M12 20V8"/><path d="M19 20V4"/></svg>
         </span>
-        <p class="ksah-name">Skills</p>
+        <h3 class="ksah-name">Skills</h3>
         <p class="ksah-desc">Practise recognising, discussing and improving accessibility in real situations.</p>
       </li>
       <li>
         <span class="ksah-icon ksah-coral" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5c-4.5-3-8-6.1-8-9.8A4.3 4.3 0 0 1 12 7.8a4.3 4.3 0 0 1 8 2.9c0 3.7-3.5 6.8-8 9.8Z"/></svg>
         </span>
-        <p class="ksah-name">Attitudes</p>
+        <h3 class="ksah-name">Attitudes</h3>
         <p class="ksah-desc">Explore different perspectives and develop curiosity about how others experience technology.</p>
       </li>
       <li>
         <span class="ksah-icon ksah-yellow" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 13.7-5.7L20 8"/><path d="M20 4v4h-4"/><path d="M20 12a8 8 0 0 1-13.7 5.7L4 16"/><path d="M4 20v-4h4"/></svg>
         </span>
-        <p class="ksah-name">Habits</p>
+        <h3 class="ksah-name">Habits</h3>
         <p class="ksah-desc">Make accessibility questions a natural part of designing, building and evaluating technology.</p>
       </li>
     </ul>
@@ -735,21 +737,21 @@
         <span class="prd-icon prd-green" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4.5v15l13-7.5-13-7.5Z"/></svg>
         </span>
-        <p class="prd-name">Play</p>
+        <h3 class="prd-name">Play</h3>
         <p class="prd-desc">Use objects, scenarios and activities to make abstract accessibility ideas tangible.</p>
       </li>
       <li>
         <span class="prd-icon prd-blue" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5C4 4.7 4.7 4 5.5 4h13c.8 0 1.5.7 1.5 1.5v9c0 .8-.7 1.5-1.5 1.5H9l-4 4v-4H5.5C4.7 16 4 15.3 4 14.5v-9Z"/></svg>
         </span>
-        <p class="prd-name">Reflect</p>
+        <h3 class="prd-name">Reflect</h3>
         <p class="prd-desc">Discuss what happened, change perspective and examine where barriers emerged.</p>
       </li>
       <li>
         <span class="prd-icon prd-coral" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1-4L15.5 5.5a1.5 1.5 0 0 1 2 0l1 1a1.5 1.5 0 0 1 0 2L8 19l-4 1Z"/><path d="M13.5 7.5l3 3"/></svg>
         </span>
-        <p class="prd-name">Design</p>
+        <h3 class="prd-name">Design</h3>
         <p class="prd-desc">Take what you learned back into real products, interfaces and professional practice.</p>
       </li>
     </ul>
