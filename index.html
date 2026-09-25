@@ -12,6 +12,7 @@
   :root{
     --accent:#1c516b;
     --accent-dark:#103c52;
+    --on-accent:#fff;
     --cream:#fdfdfb;
     --ink:#222;
     --panel:#fff;
@@ -52,7 +53,7 @@
     top:-48px;
     left:12px;
     background:var(--accent-dark);
-    color:#fff;
+    color:var(--on-accent);
     padding:10px 18px;
     border-radius:8px;
     z-index:100;
@@ -160,7 +161,7 @@
     text-decoration:none;
     border:1.5px solid transparent;
   }
-  .btn-primary{ background:var(--accent-dark); color:#fff; }
+  .btn-primary{ background:var(--accent-dark); color:var(--on-accent); }
   .btn-primary:hover{ background:var(--accent); }
   .btn-secondary{ border-color:var(--accent-dark); color:var(--accent-dark); }
   .btn-secondary:hover{ background:#eef3f5; }
@@ -242,17 +243,15 @@
     color:#333;
     margin:0 0 32px;
   }
+  /* auto-fill keeps empty tracks, so a card alone on a row stays as
+     narrow as the others instead of stretching */
   .tools{
     display:grid;
-    grid-template-columns:1fr;
+    grid-template-columns:repeat(auto-fill, minmax(min(100%, 260px), 1fr));
     gap:20px;
     margin:0;
     padding:0;
     list-style:none;
-  }
-  @media (min-width:640px){
-    .tools{ grid-template-columns:repeat(2, 1fr); }
-    .tools > li:nth-child(odd):nth-last-child(1){ grid-column:1 / -1; }
   }
   .tool{
     display:flex;
@@ -272,33 +271,20 @@
   @media (prefers-reduced-motion: no-preference){
     .tool:hover, .tool:focus-visible{ transform:translateY(-2px); }
   }
-  /* Photo of the physical object, bleeding to the card edges */
+  /* Whole photo of the physical object, bleeding to the card edges */
   .tool-photo{
     display:block;
     width:calc(100% + 44px);
+    height:auto;
+    aspect-ratio:4 / 3;
     margin:-22px -22px 18px;
-    aspect-ratio:3 / 2;
-    max-height:240px;
-    object-fit:cover;
-    object-position:center;
     border-radius:10.5px 10.5px 0 0;
+    border-bottom:4px solid var(--border);
     background:#eee;
   }
-  /* The full-width card crops to a wide band, so aim it at the objects */
-  .tool-photo-high{ object-position:center 24%; }
-  .tool-icon{
-    width:44px;
-    height:44px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    margin:0 0 14px;
-  }
-  .tool-icon svg{ width:22px; height:22px; }
-  .tool-green .tool-icon{ background:var(--accent-green); color:var(--accent-green-ink); }
-  .tool-coral .tool-icon{ background:var(--accent-coral); color:var(--accent-coral-ink); }
-  .tool-blue .tool-icon{ background:var(--accent-blue); color:var(--accent-blue-ink); }
+  .tool-green .tool-photo{ border-bottom-color:var(--accent-green); }
+  .tool-coral .tool-photo{ border-bottom-color:var(--accent-coral); }
+  .tool-blue .tool-photo{ border-bottom-color:var(--accent-blue); }
   .tool-name{
     font-family:'Poppins',sans-serif;
     font-weight:800;
@@ -510,6 +496,9 @@
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
       --cream:#15181a;
+      --accent:#7fb3cc;
+      --accent-dark:#9fc6d9;
+      --on-accent:#10222b;
       --ink:#e8e8e6;
       --panel:#1e2224;
       --border:#333;
@@ -536,6 +525,9 @@
   }
   :root[data-theme="dark"]{
     --cream:#15181a;
+    --accent:#7fb3cc;
+    --accent-dark:#9fc6d9;
+    --on-accent:#10222b;
     --ink:#e8e8e6;
     --panel:#1e2224;
     --border:#333;
@@ -627,11 +619,8 @@
     <ul class="tools">
       <li>
         <a class="tool tool-green" href="https://github.com/a11y-intuition-lab/gapplings">
-          <img class="tool-photo" src="images/gapplings.webp" width="920" height="690" loading="lazy"
+          <img class="tool-photo" src="images/gapplings.webp" width="640" height="480" loading="lazy"
                alt="Pale green meeple figures, each embossed with a different symbol, standing on cards labelled Language, Vision, Motor, Cognitive, Pace, Memory, Attention and Hearing, beside the printed Gapplings deck.">
-          <span class="tool-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="3"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
-          </span>
           <h3 class="tool-name">Gapplings</h3>
           <p class="tool-desc">Small figures for exploring different dimensions of human ability and experience. Use them to change perspective, identify barriers and ask how a design works for different people and contexts.</p>
           <p class="tool-tags">Vision · Hearing · Motor · Cognitive · Memory · Attention · Language · Pace</p>
@@ -639,11 +628,8 @@
       </li>
       <li>
         <a class="tool tool-coral" href="https://github.com/a11y-intuition-lab/gap-coin">
-          <img class="tool-photo" src="images/gap-coin.webp" width="920" height="690" loading="lazy"
+          <img class="tool-photo" src="images/gap-coin.webp" width="640" height="480" loading="lazy"
                alt="Two pairs of Gap Coins in pink and green — one pair embossed GAP, the other showing a two-tone landscape with a sun and an infinity symbol — beside the Memento Intervalli cards.">
-          <span class="tool-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M9 12h6M12 9v6"/></svg>
-          </span>
           <h3 class="tool-name">Gap Coin</h3>
           <p class="tool-desc">Explore how ability and context change. The Gap Coin introduces permanent, temporary and situational limitations and helps learners examine the gap between what a person can do and what an environment demands.</p>
           <p class="tool-aside">Memento Intervalli — a physical reminder that ability varies, and good design narrows the gap.</p>
@@ -651,11 +637,8 @@
       </li>
       <li>
         <a class="tool tool-blue" href="https://github.com/a11y-intuition-lab/fidget-tokens">
-          <img class="tool-photo tool-photo-high" src="images/fidget-tokens.webp" width="920" height="690" loading="lazy"
+          <img class="tool-photo" src="images/fidget-tokens.webp" width="640" height="480" loading="lazy"
                alt="Six pale green tokens with different raised textures — honeycomb, waves, concentric rings, a maze, cross-hatching and spokes — beside a round storage tin and the A11y Fidget Tokens cards.">
-          <span class="tool-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="2"/><circle cx="16.5" cy="7.5" r="3.5"/><rect x="4" y="14" width="7" height="7" rx="3.5"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>
-          </span>
           <h3 class="tool-name">A11y Fidget Tokens</h3>
           <p class="tool-desc">Explore how information can be communicated through touch. Different tactile patterns invite learners to compare, identify and discuss ways of making information distinguishable beyond vision alone.</p>
         </a>
