@@ -272,6 +272,20 @@
   @media (prefers-reduced-motion: no-preference){
     .tool:hover, .tool:focus-visible{ transform:translateY(-2px); }
   }
+  /* Photo of the physical object, bleeding to the card edges */
+  .tool-photo{
+    display:block;
+    width:calc(100% + 44px);
+    margin:-22px -22px 18px;
+    aspect-ratio:3 / 2;
+    max-height:240px;
+    object-fit:cover;
+    object-position:center;
+    border-radius:10.5px 10.5px 0 0;
+    background:#eee;
+  }
+  /* The full-width card crops to a wide band, so aim it at the objects */
+  .tool-photo-high{ object-position:center 24%; }
   .tool-icon{
     width:44px;
     height:44px;
@@ -613,6 +627,8 @@
     <ul class="tools">
       <li>
         <a class="tool tool-green" href="https://github.com/a11y-intuition-lab/gapplings">
+          <img class="tool-photo" src="images/gapplings.webp" width="920" height="690" loading="lazy"
+               alt="Pale green meeple figures, each embossed with a different symbol, standing on cards labelled Language, Vision, Motor, Cognitive, Pace, Memory, Attention and Hearing, beside the printed Gapplings deck.">
           <span class="tool-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="3"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
           </span>
@@ -623,6 +639,8 @@
       </li>
       <li>
         <a class="tool tool-coral" href="https://github.com/a11y-intuition-lab/gap-coin">
+          <img class="tool-photo" src="images/gap-coin.webp" width="920" height="690" loading="lazy"
+               alt="Two pairs of Gap Coins in pink and green — one pair embossed GAP, the other showing a two-tone landscape with a sun and an infinity symbol — beside the Memento Intervalli cards.">
           <span class="tool-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M9 12h6M12 9v6"/></svg>
           </span>
@@ -633,6 +651,8 @@
       </li>
       <li>
         <a class="tool tool-blue" href="https://github.com/a11y-intuition-lab/fidget-tokens">
+          <img class="tool-photo tool-photo-high" src="images/fidget-tokens.webp" width="920" height="690" loading="lazy"
+               alt="Six pale green tokens with different raised textures — honeycomb, waves, concentric rings, a maze, cross-hatching and spokes — beside a round storage tin and the A11y Fidget Tokens cards.">
           <span class="tool-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="2"/><circle cx="16.5" cy="7.5" r="3.5"/><rect x="4" y="14" width="7" height="7" rx="3.5"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>
           </span>
