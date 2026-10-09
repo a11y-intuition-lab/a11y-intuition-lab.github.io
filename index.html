@@ -299,7 +299,7 @@
   }
   .tool-tags, .tool-aside{
     font-size:1rem;
-    color:#777;
+    color:var(--muted);
     margin:0;
   }
   .tool-aside{ font-style:italic; }
@@ -486,7 +486,7 @@
 
   footer{
     font-size:1rem;
-    color:#888;
+    color:var(--muted);
     border-top:1px solid #e5e5e5;
     padding-top:20px;
     margin-top:24px;
@@ -504,7 +504,10 @@
       --border:#333;
       --muted:#999;
 
-      --accent-green:#4f6b3c;
+      /* Light accents on dark surfaces (AIL design tokens): links 9.3:1, headings 10.9:1 */
+      --accent:#8cc2e3;
+      --accent-dark:#a9d0e8;
+      --accent-green:#476136;
       --accent-green-ink:#c9e3b5;
       --accent-coral:#6b3f34;
       --accent-coral-ink:#f2c9bd;
@@ -522,6 +525,9 @@
     body:not([data-theme="light"]) nav[aria-label="Main"] a:hover,
     body:not([data-theme="light"]) .btn-secondary:hover{ background:#22282b; }
     body:not([data-theme="light"]) .hero-visual .caption{ background:var(--cream); }
+    /* Dark text on the light accent backgrounds (7.2:1 and 6.1:1) */
+    body:not([data-theme="light"]) .skip-link,
+    body:not([data-theme="light"]) .btn-primary{ color:#103c52; }
   }
   :root[data-theme="dark"]{
     --cream:#15181a;
@@ -533,7 +539,10 @@
     --border:#333;
     --muted:#999;
 
-    --accent-green:#4f6b3c;
+    /* Light accents on dark surfaces (AIL design tokens): links 9.3:1, headings 10.9:1 */
+    --accent:#8cc2e3;
+    --accent-dark:#a9d0e8;
+    --accent-green:#476136;
     --accent-green-ink:#c9e3b5;
     --accent-coral:#6b3f34;
     --accent-coral-ink:#f2c9bd;
@@ -550,6 +559,8 @@
   body[data-theme="dark"] .prd-desc, body[data-theme="dark"] .upcoming-desc{ color:#aaa; }
   body[data-theme="dark"] nav[aria-label="Main"] a:hover,
   body[data-theme="dark"] .btn-secondary:hover{ background:#22282b; }
+  body[data-theme="dark"] .skip-link,
+  body[data-theme="dark"] .btn-primary{ color:#103c52; }
 </style>
 </head>
 <body>
